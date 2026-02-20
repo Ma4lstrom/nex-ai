@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+
+# Storage (will be mounted as volume)
+storage/
+
+# Models (will be mounted as volume)
+models/
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+README.md
+
+# Test images
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+# Mac
+.DS_Store
+
+# Setup scripts
+setup_mac.sh

@@ -1,0 +1,27 @@
+# Food Vision API — Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Web framework
+fastapi==0.115.0
+uvicorn[standard]==0.30.0
+
+# Image handling
+Pillow==10.4.0
+
+# Computer vision / ML
+tensorflow==2.17.0          # MobileNetV2 for visual embeddings
+numpy==1.26.4
+scikit-learn==1.5.0         # Cosine similarity utilities
+
+# File uploads
+python-multipart==0.0.9
+
+# Anthropic Vision AI
+openai
+
+# Config / env
+pydantic-settings==2.4.0
+python-dotenv==1.0.1
+
+# Async file I/O
+aiofiles==24.1.0
