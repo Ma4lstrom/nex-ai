@@ -3,6 +3,7 @@ from typing import List
 
 class Settings(BaseSettings):
     ANTHROPIC_API_KEY: str = ""
+    API_KEY: str
     REFERENCE_IMAGE_DIR: str = "storage/references"
     TEMP_IMAGE_DIR: str = "storage/temp"
     MODEL_DIR: str = "models"
