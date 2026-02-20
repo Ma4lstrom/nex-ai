@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   food-vision-api:
@@ -8,6 +8,7 @@ services:
       - "8000:8000"
     environment:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - API_KEY=${API_KEY}
       - REFERENCE_IMAGE_DIR=/app/storage/references
       - TEMP_IMAGE_DIR=/app/storage/temp
       - MODEL_DIR=/app/models
