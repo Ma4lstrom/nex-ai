@@ -8,7 +8,7 @@ import numpy as np
 from PIL import Image
 from typing import List, Optional, Tuple
 import io
-from vecdb import collection
+from app.vecdb import collection
 
 
 # Load MobileNetV2 once at import time

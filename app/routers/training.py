@@ -16,7 +16,7 @@ from PIL import Image
 import io
 from app.vision import DishProfile, load_image
 from app.config import settings
-from vecdb import store_image_embedding
+from app.vecdb import store_image_embedding
 
 router = APIRouter()
 

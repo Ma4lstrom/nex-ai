@@ -22,7 +22,7 @@ async def verify_api_key(x_api_key: str = Header(None)):
 app = FastAPI(
     title="Food Vision API",
     description="AI-powered API for food image analysis and dish recognition",
-    version="1.0.0",
+    version="1.0.1",
     dependencies=[Depends(verify_api_key)]
 )
 

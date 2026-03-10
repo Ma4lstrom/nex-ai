@@ -30,7 +30,7 @@ from app.config import settings
 def analyze_food_image(
     query_image: Image.Image,
     dish_profile: DishProfile,
-    percentage_of_fail: bool
+    percentage_of_fail: int
 ) -> dict:
     """
     Full analysis pipeline:

@@ -27,7 +27,7 @@ MAX_SIZE_BYTES = settings.MAX_IMAGE_SIZE_MB * 1024 * 1024
 async def analyze_image(
     dish_id: str,
     image: UploadFile = File(..., description="The food photo to evaluate"),
-    percentage_of_fail: bool = 80
+    percentage_of_fail: int = 80
 ):
     """
     Analyze a food image and return:
