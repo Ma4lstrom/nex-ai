@@ -21,6 +21,7 @@ from app.vision import (
     extract_features,
     compare_to_reference,
     load_image,
+    compare_to_incorrect_emb
 )
 from app.claude_vision import analyze_with_claude
 from app.config import settings
@@ -29,6 +30,7 @@ from app.config import settings
 def analyze_food_image(
     query_image: Image.Image,
     dish_profile: DishProfile,
+    percentage_of_fail: bool
 ) -> dict:
     """
     Full analysis pipeline:
@@ -43,12 +45,19 @@ def analyze_food_image(
     # ── Step 1: Visual feature comparison ───────────────────────────────────
     query_features = extract_features(query_image)
     reference_features = dish_profile.get_reference_features()
+    include_incorrect_text
 
     if not reference_features:
         return {
             "success": False,
             "error": f"Dish '{dish_profile.dish_name}' has no reference images. Upload training images first.",
         }
+
+    # -- Compare to stored incorrect scans ---
+    scan_fail_bool, problem_text = compare_to_incorrect_emb(reference_features, percentage_of_fail)
+
+    # -- if true we need to also send the incorrect text from that image.
+    include_incorrect_text = scan_fail_bool
 
     visual_score_raw, visual_breakdown = compare_to_reference(
         query_features,
@@ -108,7 +117,7 @@ def analyze_food_image(
 
         # Ingredient-level findings from Claude
         "missing_ingredients": claude_result["missing_ingredients"],
-        "issues_found": claude_result["issues_found"],
+        "issues_found": ([problem_text] if include_incorrect_text else []) + claude_result["issues_found"],
         "correct_elements": claude_result["correct_elements"],
         "overall_assessment": claude_result["overall_assessment"],
 

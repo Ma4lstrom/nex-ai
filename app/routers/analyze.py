@@ -27,6 +27,7 @@ MAX_SIZE_BYTES = settings.MAX_IMAGE_SIZE_MB * 1024 * 1024
 async def analyze_image(
     dish_id: str,
     image: UploadFile = File(..., description="The food photo to evaluate"),
+    percentage_of_fail: bool = 80
 ):
     """
     Analyze a food image and return:
@@ -74,7 +75,7 @@ async def analyze_image(
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Could not decode image: {e}")
 
-    result = analyze_food_image(query_image, profile)
+    result = analyze_food_image(query_image, profile, percentage_of_fail)
 
     if not result["success"]:
         raise HTTPException(status_code=500, detail=result.get("error", "Analysis failed"))

@@ -8,6 +8,8 @@ import numpy as np
 from PIL import Image
 from typing import List, Optional, Tuple
 import io
+from vecdb import collection
+
 
 # Load MobileNetV2 once at import time
 print("🧠 Loading MobileNetV2...")
@@ -97,6 +99,22 @@ def compare_to_reference(
 
     return best_score, best_breakdown
 
+def compare_to_incorrect_emb(query_features: dict, fail_percentage: int) -> float:
+    best_score = fail_percentage
+    failed: bool = False
+    image_problem
+    query_embedding = query_features["embedding"]
+    results = collection.similarity_search(query_embedding, k=5)
+
+    for r in results:
+        r_emb = r["metadata"]["embedding"]
+        emb_sim = cosine_similarity(query_embedding, r_emb)
+        if emb_sim >= best_score:
+            failed = True
+            best_score = emb_sim
+            image_problem = r["metadata"]["issue"]
+
+    return failed, image_problem
 
 class DishProfile:
     def __init__(self, dish_id: str, dish_name: str, ingredients: List[str] = None):

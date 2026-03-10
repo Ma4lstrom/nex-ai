@@ -16,6 +16,7 @@ from PIL import Image
 import io
 from app.vision import DishProfile, load_image
 from app.config import settings
+from vecdb import store_image_embedding
 
 router = APIRouter()
 
@@ -128,3 +129,17 @@ def reset_references(dish_id: str):
         "success": True,
         "message": f"All reference images for '{dish_id}' removed. Upload new ones to retrain.",
     }
+
+@router.post("/{dish_id}/issue", summary="Add an issue to an existing dish to be trained on")
+def upload_issue(dish_id:str, img_emb: list[float], issue_text: str):
+    """Upload issue for a existing dish to be trained on for secondary layer"""
+    profile = DishProfile.load(dish_id, settings.MODEL_DIR)
+    if not profile:
+        raise HTTPException(status_code=404, detail=f"Dish '{dish_id}' not found")
+    result = store_image_embedding(profile.dish_name, img_emb, issue_text)
+
+    return {
+        "success": True,
+        "message": f"Successfully saved issue for '{dish_id}"
+    }
+
