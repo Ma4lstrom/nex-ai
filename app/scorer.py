@@ -137,6 +137,7 @@ def analyze_food_image(
 
         "reference_images_used": len(reference_features),
         "claude_confidence": claude_result["confidence"],
+        "image_embedding": query_features["embedding"].tolist(),
     }
 
 
