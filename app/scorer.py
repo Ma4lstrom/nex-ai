@@ -45,7 +45,7 @@ def analyze_food_image(
     # ── Step 1: Visual feature comparison ───────────────────────────────────
     query_features = extract_features(query_image)
     reference_features = dish_profile.get_reference_features()
-    include_incorrect_text
+    include_incorrect_text = False
 
     if not reference_features:
         return {
