@@ -101,8 +101,7 @@ def compare_to_reference(
 
 def compare_to_incorrect_emb(query_features: dict, fail_percentage: int) -> float:
     best_score = fail_percentage / 100.0
-    failed: bool = False
-    image_problem = ""
+    problems = []
     query_embedding = query_features["embedding"]
     results = collection.similarity_search(query_embedding, k=5)
 
@@ -111,11 +110,10 @@ def compare_to_incorrect_emb(query_features: dict, fail_percentage: int) -> floa
         
         emb_sim = cosine_similarity(query_embedding, r_emb)
         if emb_sim >= best_score:
-            failed = True
             best_score = emb_sim
-            image_problem = r_meta
+            problems.append(r_meta["issue"])
 
-    return failed, image_problem
+    return len(problems) > 0, problems
 
 class DishProfile:
     def __init__(self, dish_id: str, dish_name: str, ingredients: List[str] = None):

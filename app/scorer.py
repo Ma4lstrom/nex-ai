@@ -54,7 +54,7 @@ def analyze_food_image(
         }
 
     # -- Compare to stored incorrect scans ---
-    scan_fail_bool, problem_text = compare_to_incorrect_emb(query_features, percentage_of_fail)
+    scan_fail_bool, problem_texts = compare_to_incorrect_emb(query_features, percentage_of_fail)
 
     # -- if true we need to also send the incorrect text from that image.
     include_incorrect_text = scan_fail_bool
@@ -117,7 +117,7 @@ def analyze_food_image(
 
         # Ingredient-level findings from Claude
         "missing_ingredients": claude_result["missing_ingredients"],
-        "issues_found": ([problem_text] if include_incorrect_text else []) + claude_result["issues_found"],
+        "issues_found": (problem_texts if include_incorrect_text else []) + claude_result["issues_found"],
         "correct_elements": claude_result["correct_elements"],
         "overall_assessment": claude_result["overall_assessment"],
 
