@@ -54,7 +54,7 @@ def analyze_food_image(
         }
 
     # -- Compare to stored incorrect scans ---
-    scan_fail_bool, problem_text = compare_to_incorrect_emb(reference_features, percentage_of_fail)
+    scan_fail_bool, problem_text = compare_to_incorrect_emb(query_features, percentage_of_fail)
 
     # -- if true we need to also send the incorrect text from that image.
     include_incorrect_text = scan_fail_bool
