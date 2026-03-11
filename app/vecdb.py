@@ -6,14 +6,15 @@ collection = db.collection("imgs")
 
 
 def store_image_embedding(dish_name: str, img_emb: list[float], issue_txt: str):
-    collection.add(
-        id=[f"plate_{uuid.uuid4()}"],
+    collection.add_texts(
+        texts=[issue_txt],
         embeddings=[img_emb],
-        metadata=[{
+        metadatas=[{
             "issue": issue_txt,
             "referenced_dish": dish_name,
-            "embedding": img_emb
+            "embeddings": img_emb
         }]
     )
+
 
     return "Done"
