@@ -100,19 +100,20 @@ def compare_to_reference(
     return best_score, best_breakdown
 
 def compare_to_incorrect_emb(query_features: dict, fail_percentage: int) -> float:
-    best_score = fail_percentage
+    best_score = fail_percentage / 100.0
     failed: bool = False
     image_problem = ""
     query_embedding = query_features["embedding"]
     results = collection.similarity_search(query_embedding, k=5)
 
     for r in results:
-        r_emb = r["metadata"]["embedding"]
+        r_id, r_emb, r_meta = r
+        
         emb_sim = cosine_similarity(query_embedding, r_emb)
         if emb_sim >= best_score:
             failed = True
             best_score = emb_sim
-            image_problem = r["metadata"]["issue"]
+            image_problem = r_meta
 
     return failed, image_problem
 
