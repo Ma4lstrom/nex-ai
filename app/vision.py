@@ -102,7 +102,7 @@ def compare_to_reference(
 def compare_to_incorrect_emb(query_features: dict, fail_percentage: int) -> float:
     best_score = fail_percentage
     failed: bool = False
-    image_problem
+    image_problem = ""
     query_embedding = query_features["embedding"]
     results = collection.similarity_search(query_embedding, k=5)
 
