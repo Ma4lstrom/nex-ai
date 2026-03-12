@@ -106,7 +106,8 @@ def compare_to_incorrect_emb(query_features: dict, fail_percentage: int) -> floa
     results = collection.similarity_search(query_embedding, k=5)
 
     for r in results:
-        r_id, r_emb, r_meta = r
+        print(f"Processing result: {r}")
+        r_emb, r_meta = r
         
         emb_sim = cosine_similarity(query_embedding, r_emb)
         if emb_sim >= best_score:
