@@ -103,16 +103,34 @@ def compare_to_incorrect_emb(query_features: dict, fail_percentage: int) -> floa
     best_score = fail_percentage / 100.0
     problems = []
     query_embedding = query_features["embedding"]
-    results = collection.similarity_search(query_embedding, k=5)
+    
+    try:
+        results = collection.similarity_search(query_embedding, k=5)
+    except ValueError as e:
+        if "doesn't match" in str(e):
+            print("Dimension mismatch detected, clearing vector DB...")
+            collection.clear()
+            return False, []
+        raise
 
     for r in results:
-        print(f"Processing result: {r}")
-        r_emb, r_meta = r
+        # Handle the Document + similarity_score structure
+        if len(r) == 2:
+            document, similarity_score = r
+            
+            # Get the embedding from the document metadata
+            if hasattr(document, 'metadata') and 'embeddings' in document.metadata:
+                r_emb = document.metadata['embeddings']
+                r_meta = document.metadata
+            else:
+                continue  # Skip if no embedding found
+        else:
+            continue  # Skip malformed results
         
         emb_sim = cosine_similarity(query_embedding, r_emb)
         if emb_sim >= best_score:
             best_score = emb_sim
-            problems.append(r_meta["issue"])
+            problems.append(r_meta.get("issue", "Unknown issue"))
 
     return len(problems) > 0, problems
 
